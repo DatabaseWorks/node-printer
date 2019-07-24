@@ -10,12 +10,14 @@
 #  define MY_NODE_MODULE_ISOLATE_DECL v8::Isolate* isolate = v8::Isolate::GetCurrent();
 #  define MY_NODE_MODULE_ISOLATE      isolate
 #  define MY_NODE_MODULE_ISOLATE_PRE  isolate, 
-#  define MY_NODE_MODULE_ISOLATE_POST , isolate 
+#  define MY_NODE_MODULE_ISOLATE_CONTEXT_PRE  isolate->GetCurrentContext(),  
+#  define MY_NODE_MODULE_ISOLATE_POST , isolate
 #  define MY_NODE_MODULE_HANDLESCOPE MY_NODE_MODULE_ISOLATE_DECL v8::HandleScope scope(MY_NODE_MODULE_ISOLATE)
 #  define MY_NODE_MODULE_CALLBACK(name) void name(const v8::FunctionCallbackInfo<v8::Value>& iArgs)
 #  define V8_VALUE_NEW(type, value)   v8::type::New(MY_NODE_MODULE_ISOLATE_PRE value)
+#  define V8_VALUE_NEW_LOCAL_CONTEXT(type, value)   v8::type::New(MY_NODE_MODULE_ISOLATE_CONTEXT_PRE value).ToLocalChecked()
 #  define V8_VALUE_NEW_DEFAULT(type)   v8::type::New(MY_NODE_MODULE_ISOLATE)
-#  define V8_STRING_NEW_UTF8(value)   v8::String::NewFromUtf8(MY_NODE_MODULE_ISOLATE_PRE value)
+#  define V8_STRING_NEW_UTF8(value)   v8::String::NewFromUtf8(MY_NODE_MODULE_ISOLATE_PRE value, v8::NewStringType::kNormal, static_cast<int>(strlen(value))).ToLocalChecked()
 #  define V8_STRING_NEW_2BYTES(value)   v8::String::NewFromTwoByte(MY_NODE_MODULE_ISOLATE_PRE value)
 
 #  define RETURN_EXCEPTION(msg)  isolate->ThrowException(v8::Exception::TypeError(msg));    \

@@ -118,9 +118,9 @@ namespace
         double completedTime = ((double)job->completed_time) * 1000;
         double processingTime = ((double)job->processing_time) * 1000;
 
-        result_printer_job->Set(V8_STRING_NEW_UTF8("completedTime"), V8_VALUE_NEW(Date, completedTime));
-        result_printer_job->Set(V8_STRING_NEW_UTF8("creationTime"), V8_VALUE_NEW(Date, creationTime));
-        result_printer_job->Set(V8_STRING_NEW_UTF8("processingTime"), V8_VALUE_NEW(Date, processingTime));
+        result_printer_job->Set(V8_STRING_NEW_UTF8("completedTime"), V8_VALUE_NEW_LOCAL_CONTEXT(Date, completedTime));
+        result_printer_job->Set(V8_STRING_NEW_UTF8("creationTime"), V8_VALUE_NEW_LOCAL_CONTEXT(Date, creationTime));
+        result_printer_job->Set(V8_STRING_NEW_UTF8("processingTime"), V8_VALUE_NEW_LOCAL_CONTEXT(Date, processingTime));
 
         // No error. return an empty string
         return "";
